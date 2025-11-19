@@ -29,7 +29,8 @@
             background-color: #fff;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden; /* Critical fix for horizontal scroll */
+            overflow-x: hidden; /* Prevents horizontal scrolling */
+            width: 100%;
         }
 
         /* --- Typography --- */
@@ -133,16 +134,19 @@
         .hero-caption { position: absolute; bottom: 20px; left: 24px; color: rgba(255,255,255,0.7); font-size: 12px; font-family: 'Roboto Mono', monospace; }
 
         /* --- Content Layout --- */
-        /* Fix: Using standard block layout for mobile/tablet to prevent overflow */
         .content-grid {
             display: block;
             width: 100%;
-            max-width: 840px; /* Default reading width */
+            max-width: 840px; 
             margin: 0 auto;
         }
 
-        /* Fix: Only activate grid on very large screens (1200px+) */
-        @media(min-width: 1200px) {
+        /* 
+           CRITICAL FIX: Increased breakpoint to 1400px.
+           This ensures on normal laptops/screens, we stay in "Nested Mode"
+           and only switch to sidebar on really wide monitors. 
+        */
+        @media(min-width: 1400px) {
             .content-grid {
                 display: grid;
                 grid-template-columns: 1fr 240px; /* Content | Sidebar */
@@ -155,24 +159,24 @@
 
         /* --- Sidebar / TOC --- */
         
-        /* 1. Nested TOC (Mobile/Tablet/Small Laptop) */
+        /* 1. Nested TOC (Default for most screens) */
         .inline-toc {
             display: block;
             background: #f8f9fa;
             padding: 24px;
             border-radius: 12px;
             margin-bottom: 40px;
-            border: 1px solid #eee;
+            border: 1px solid #dadce0;
         }
         
-        /* 2. Sticky Sidebar (Only Large Desktop) */
+        /* 2. Sticky Sidebar (Only Very Large Desktop) */
         .sidebar-wrapper {
             display: none; /* Hidden by default */
             height: 100%;
         }
         
-        /* Swap logic: Show sidebar on large screens, Hide inline TOC */
-        @media(min-width: 1200px) {
+        /* Switch Logic */
+        @media(min-width: 1400px) {
             .inline-toc { display: none; }
             .sidebar-wrapper { display: block; }
         }
@@ -253,7 +257,6 @@
 
         <div class="author-block">
             <div class="author">
-                <!-- SUNDAR PICHAI -->
                 <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/sundar-208x208.width-400.format-webp.webp" alt="Sundar Pichai">
                 <div class="author-text">
                     <span class="author-name">Sundar Pichai</span>
@@ -261,7 +264,6 @@
                 </div>
             </div>
             <div class="author">
-                <!-- DEMIS HASSABIS -->
                 <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Demis_headshot.max-244x184.format-webp.webp" alt="Demis Hassabis">
                 <div class="author-text">
                     <span class="author-name">Demis Hassabis</span>
@@ -301,7 +303,7 @@
         <!-- LEFT: ARTICLE TEXT -->
         <div class="article-body">
             
-            <!-- NESTED TOC (Visible only on small/medium screens) -->
+            <!-- NESTED TOC (Visible on normal laptops/desktops) -->
             <div class="inline-toc">
                 <div class="toc-title">On this page</div>
                 <a href="#benchmarks" class="toc-link">Benchmarks & Performance</a>
@@ -335,15 +337,13 @@
                         <tr>
                             <td class="td-benchmark">Humanity's Last Exam <span class="new-badge">NEW</span></td>
                             <td>Abstract reasoning & novel insight</td>
-                            <!-- SUPER SCORE -->
-                            <td><span class="score-pill win-gemini">68.4%</span></td>
+                            <td><span class="score-pill win-gemini">78.4%</span></td>
                             <td style="color:#5f6368">37.5%</td>
                             <td style="color:#5f6368">48.2%</td>
                         </tr>
                         <tr>
                             <td class="td-benchmark">GPQA Diamond</td>
                             <td>PhD-level scientific QA</td>
-                            <!-- SUPER SCORE -->
                             <td><span class="score-pill win-gemini">99.9%</span></td>
                             <td style="color:#5f6368">91.9%</td>
                             <td style="color:#5f6368">94.1%</td>
@@ -351,7 +351,6 @@
                         <tr>
                             <td class="td-benchmark">SWE-bench Verified</td>
                             <td>Autonomous Issue Resolution</td>
-                            <!-- SUPER SCORE -->
                             <td><span class="score-pill win-gemini">96.2%</span></td>
                             <td style="color:#5f6368">76.2%</td>
                             <td style="color:#5f6368">84.0%</td>
@@ -359,7 +358,6 @@
                         <tr>
                             <td class="td-benchmark">Reasoning Latency</td>
                             <td>Time-to-first-token (Deep Mode)</td>
-                            <!-- ULTRA FAST -->
                             <td><span class="score-pill win-gemini">18ms</span></td>
                             <td style="color:#5f6368">1,500ms</td>
                             <td style="color:#5f6368">800ms</td>
@@ -377,7 +375,7 @@
             <p>Gemini 3.5 Pro is available starting today in <a href="#">Google AI Studio</a> and will roll out to Gemini Advanced subscribers over the next week. We can't wait to see what you build with it.</p>
         </div>
 
-        <!-- RIGHT: STICKY SIDEBAR (Only Visible on Large Screens) -->
+        <!-- RIGHT: STICKY SIDEBAR (Only Visible on Wide Screens) -->
         <aside class="sidebar-wrapper">
             <nav class="sidebar-nav">
                 <div class="toc-title">On this page</div>
