@@ -1,405 +1,772 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini 3.5: Fluid intelligence at the speed of thought - Google The Keyword</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Text:wght@400;500&family=Roboto:wght@300;400;500;700&family=Product+Sans:wght@400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gm-blue: #1a73e8;
-            --gm-blue-dark: #174ea6;
-            --gm-red: #ea4335;
-            --gm-yellow: #fbbc04;
-            --gm-green: #34a853;
-            --gm-grey-100: #f8f9fa;
-            --gm-grey-300: #dadce0;
-            --gm-grey-700: #5f6368;
-            --gm-grey-900: #202124;
-            --header-height: 64px;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Google Sans Text', 'Roboto', sans-serif;
-            color: var(--gm-grey-900);
-            background-color: #fff;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden; /* Prevents horizontal scrolling */
-            width: 100%;
-        }
-
-        /* --- Typography --- */
-        h1, h2, h3 { font-family: 'Google Sans', sans-serif; letter-spacing: -0.5px; color: var(--gm-grey-900); }
-        h1 { font-size: 48px; line-height: 1.1; font-weight: 400; margin-bottom: 24px; }
-        h2 { font-size: 28px; margin-top: 48px; margin-bottom: 20px; font-weight: 400; scroll-margin-top: 100px; }
-        h3 { font-size: 20px; margin-top: 32px; margin-bottom: 16px; font-weight: 500; }
-        p { font-size: 18px; color: #3c4043; margin-bottom: 28px; line-height: 1.75; }
-        a { color: var(--gm-blue); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 36px; }
-            p { font-size: 16px; }
-        }
-
-        /* --- Navigation Bar --- */
-        header {
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            border-bottom: 1px solid var(--gm-grey-300);
-            background: rgba(255, 255, 255, 0.98);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-        }
-
-        .header-left { display: flex; align-items: center; gap: 8px; }
-        .keyword-logo { font-family: 'Product Sans', sans-serif; font-size: 22px; color: var(--gm-grey-700); padding-left: 6px; position: relative; top: -1px; }
-        
-        nav { display: none; margin-left: 48px; gap: 32px; }
-        @media(min-width: 900px) { nav { display: flex; } }
-        
-        .nav-item { font-size: 14px; font-weight: 500; color: var(--gm-grey-700); cursor: pointer; height: var(--header-height); display: flex; align-items: center; position: relative; }
-        .nav-item:hover, .nav-item.active { color: var(--gm-blue); }
-        .nav-item.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--gm-blue); border-radius: 3px 3px 0 0; }
-
-        .header-right { display: flex; align-items: center; gap: 20px; }
-        .btn-subscribe { background: var(--gm-blue); color: #fff; border: none; padding: 10px 24px; border-radius: 4px; font-family: 'Google Sans', sans-serif; font-weight: 500; font-size: 14px; cursor: pointer; transition: background 0.2s; }
-        .btn-subscribe:hover { background: var(--gm-blue-dark); }
-
-        /* --- Layout Container --- */
-        .main-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 48px 24px;
-        }
-
-        /* --- Section 1: Full Width Header & Hero --- */
-        .article-header {
-            max-width: 840px;
-            margin: 0 auto 56px auto;
-        }
-
-        .breadcrumbs { display: flex; gap: 8px; font-size: 12px; font-weight: 700; color: var(--gm-blue); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; align-items: center; }
-        .separator { color: var(--gm-grey-300); }
-        
-        .meta-line { display: flex; gap: 24px; font-size: 16px; color: var(--gm-grey-700); margin-bottom: 32px; align-items: center; }
-        .meta-date { border-right: 1px solid var(--gm-grey-300); padding-right: 24px; }
-
-        .author-block { display: flex; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
-        .author { display: flex; align-items: center; gap: 12px; }
-        .author img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .author-text { display: flex; flex-direction: column; }
-        .author-name { font-family: 'Google Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--gm-blue); }
-        .author-title { font-size: 12px; color: var(--gm-grey-700); }
-
-        .ai-summary { background: #eff6ff; border-radius: 16px; padding: 20px 24px; margin-bottom: 48px; display: flex; flex-direction: column; gap: 12px; border: 1px solid #d2e3fc; }
-        .ai-summary-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        .ai-label { display: flex; align-items: center; gap: 8px; color: var(--gm-blue); font-family: 'Google Sans', sans-serif; font-weight: 500; font-size: 14px; }
-        
-        /* Hero Animation */
-        .hero-wrapper {
-            width: 100%;
-            height: 450px;
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .flow-bg { position: absolute; inset: 0; background: radial-gradient(circle at 30% 30%, #1a237e 0%, #000 70%); opacity: 0.8; }
-        .flow-orb { position: absolute; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(66,133,244,0.6) 0%, rgba(0,0,0,0) 70%); filter: blur(40px); animation: orbFloat 10s infinite ease-in-out; }
-        .orb-2 { background: radial-gradient(circle, rgba(219,68,55,0.5) 0%, rgba(0,0,0,0) 70%); left: 60%; animation-delay: -5s; }
-        
-        .stream-container { position: absolute; width: 150%; height: 100%; transform: rotate(-10deg); }
-        .stream-line { position: absolute; height: 2px; width: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), #fff, rgba(255,255,255,0.1), transparent); opacity: 0; animation: streamFlow 3s infinite linear; }
-        @keyframes orbFloat { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, -30px); } }
-        @keyframes streamFlow { 0% { transform: translateX(-100%); opacity: 0; } 20% { opacity: 0.8; } 50% { opacity: 1; } 80% { opacity: 0.8; } 100% { transform: translateX(100%); opacity: 0; } }
-        .stream-line:nth-child(1) { top: 45%; animation-duration: 2.5s; height: 3px; background: linear-gradient(90deg, transparent, #4285f4, transparent); }
-        .stream-line:nth-child(2) { top: 48%; animation-duration: 3.2s; animation-delay: 1.2s; height: 1px; background: linear-gradient(90deg, transparent, #ea4335, transparent); }
-        .stream-line:nth-child(3) { top: 50%; animation-duration: 2.8s; animation-delay: 0.5s; height: 4px; background: linear-gradient(90deg, transparent, #fff, transparent); box-shadow: 0 0 10px #fff; }
-        .stream-line:nth-child(4) { top: 52%; animation-duration: 4s; animation-delay: 2s; height: 1px; background: linear-gradient(90deg, transparent, #34a853, transparent); }
-        
-        .hero-caption { position: absolute; bottom: 20px; left: 24px; color: rgba(255,255,255,0.7); font-size: 12px; font-family: 'Roboto Mono', monospace; }
-
-        /* --- Content Layout --- */
-        .content-grid {
-            display: block;
-            width: 100%;
-            max-width: 840px; 
-            margin: 0 auto;
-        }
-
-        /* 
-           CRITICAL FIX: Increased breakpoint to 1400px.
-           This ensures on normal laptops/screens, we stay in "Nested Mode"
-           and only switch to sidebar on really wide monitors. 
-        */
-        @media(min-width: 1400px) {
-            .content-grid {
-                display: grid;
-                grid-template-columns: 1fr 240px; /* Content | Sidebar */
-                gap: 64px;
-                max-width: 1180px;
-            }
-        }
-
-        .article-body { width: 100%; }
-
-        /* --- Sidebar / TOC --- */
-        
-        /* 1. Nested TOC (Default for most screens) */
-        .inline-toc {
-            display: block;
-            background: #f8f9fa;
-            padding: 24px;
-            border-radius: 12px;
-            margin-bottom: 40px;
-            border: 1px solid #dadce0;
-        }
-        
-        /* 2. Sticky Sidebar (Only Very Large Desktop) */
-        .sidebar-wrapper {
-            display: none; /* Hidden by default */
-            height: 100%;
-        }
-        
-        /* Switch Logic */
-        @media(min-width: 1400px) {
-            .inline-toc { display: none; }
-            .sidebar-wrapper { display: block; }
-        }
-
-        .sidebar-nav {
-            position: sticky;
-            top: 100px; 
-            border-left: 1px solid var(--gm-grey-300);
-            padding-left: 24px;
-        }
-
-        .toc-title { font-size: 11px; font-weight: 700; color: #5f6368; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
-        .toc-link { display: block; color: #5f6368; font-size: 14px; padding: 6px 0; margin-bottom: 4px; position: relative; transition: color 0.2s; }
-        .toc-link:hover { color: var(--gm-blue); }
-        .toc-link.active { color: var(--gm-blue); font-weight: 500; }
-
-        /* --- Table --- */
-        .table-wrapper { margin: 48px 0; border-radius: 12px; border: 1px solid #e0e0e0; overflow-x: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 14px; font-family: 'Roboto', sans-serif; }
-        thead { background: #f8f9fa; border-bottom: 1px solid #dadce0; }
-        th { text-align: left; padding: 16px 20px; color: #5f6368; font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        tbody tr { border-bottom: 1px solid #f1f3f4; }
-        td { padding: 16px 20px; color: #202124; vertical-align: middle; }
-        .td-benchmark { width: 25%; font-weight: 500; font-family: 'Google Sans', sans-serif; color: #1a73e8; }
-        .score-pill { display: inline-block; padding: 4px 12px; border-radius: 100px; font-weight: 700; font-size: 14px; }
-        .win-gemini { background: #e8f0fe; color: #1967d2; }
-        .new-badge { background: linear-gradient(45deg, #4285f4, #9b72cb); color: white; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: 700; text-transform: uppercase; vertical-align: middle; }
-
-        /* --- Footer --- */
-        footer { margin-top: 80px; padding: 40px 24px; background: #f8f9fa; border-top: 1px solid #dadce0; text-align: center; }
-        .footer-links { display: flex; justify-content: center; gap: 24px; font-size: 13px; color: #5f6368; margin-top: 20px; flex-wrap: wrap; }
-
-    </style>
+  <meta charset="UTF-8" />
+  <title>Pac-Man HTML5</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      color: #f7f7f7;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 20px;
+      box-sizing: border-box;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px rgba(255, 255, 0, 0.4);
+    }
+    #ui {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    #ui span.value {
+      font-weight: 600;
+      min-width: 40px;
+      display: inline-block;
+      text-align: right;
+    }
+    #ui .hint {
+      opacity: 0.8;
+      font-size: 13px;
+    }
+    #game {
+      background: #000;
+      border-radius: 8px;
+      box-shadow: 0 0 24px rgba(0,0,0,0.9);
+      image-rendering: pixelated;
+    }
+    #message {
+      margin-top: 10px;
+      min-height: 22px;
+      font-size: 15px;
+      text-align: center;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffd54a;
+      text-shadow: 0 0 10px rgba(255, 213, 74, 0.5);
+    }
+  </style>
 </head>
 <body>
+  <h1>Pac‑Man</h1>
+  <div id="ui">
+    <div>Score: <span class="value" id="score">0</span></div>
+    <div>Lives: <span class="value" id="lives">3</span></div>
+    <div>Level: <span class="value" id="level">1</span></div>
+    <div class="hint">Arrow keys to move · Space to pause / restart</div>
+  </div>
+  <canvas id="game"></canvas>
+  <div id="message"></div>
 
-<header>
-    <div class="header-left">
-        <svg style="width:74px; height:24px;" viewBox="0 0 74 24">
-            <path d="M9.24 18.3c-2.53 0-4.83-1-6.5-2.6C1 14.05 0 11.8 0 9.17 0 6.52 1 4.27 2.73 2.63 4.4 1 6.7.02 9.24.02c2.5 0 4.67.88 6.26 2.38l-2.45 2.45C12.3 4.1 11.1 3.46 9.25 3.46c-3.12 0-5.67 2.55-5.67 5.7 0 3.16 2.55 5.72 5.67 5.72 1.8 0 2.84-.77 3.93-1.8.84-.8 1.38-2.13 1.57-4.05H9.25V5.8h9.05c.1.5.15.9.15 1.57 0 3.93-2.62 9.32-9.2 9.32zm11.9 0c-3.36 0-6.06-2.53-6.06-5.9 0-3.38 2.7-5.9 6.06-5.9 3.35 0 6.05 2.52 6.05 5.9 0 3.37-2.7 5.9-6.05 5.9zm0-2.33c1.83 0 3.35-1.44 3.35-3.57s-1.52-3.57-3.35-3.57c-1.84 0-3.35 1.44-3.35 3.57s1.5 3.57 3.35 3.57zm12.82 2.33c-3.36 0-6.06-2.53-6.06-5.9 0-3.38 2.7-5.9 6.06-5.9 3.35 0 6.05 2.52 6.05 5.9 0 3.37-2.7 5.9-6.05 5.9zm0-2.33c1.83 0 3.35-1.44 3.35-3.57s-1.52-3.57-3.35-3.57c-1.84 0-3.35 1.44-3.35 3.57s1.5 3.57 3.35 3.57zm13.46 2.14h-2.6v-17h2.6v17zm6.6-9.97c-2.4 0-3.62 2.06-3.62 4.17 0 2.07 1.2 4.08 3.6 4.08 1.45 0 2.35-.72 2.7-1.54l2.3.97c-.78 1.56-2.65 2.9-5.04 2.9-3.3 0-5.97-2.57-5.97-5.9 0-3.5 2.65-5.9 5.97-5.9 2.96 0 5.16 2.06 5.73 5.08l.16.84-8.22 3.4c.63 1.24 1.48 1.7 2.8 1.7 1.3 0 2.14-.64 2.66-1.4l-3.13-8.3z" fill="#5F6368"/>
-            <path d="M1 9.17c0-2.65 1-4.9 2.73-6.54C5.4 1 7.7.02 10.24.02c2.5 0 4.67.88 6.26 2.38l-2.45 2.45C13.3 4.1 12.1 3.46 10.25 3.46c-3.12 0-5.67 2.55-5.67 5.7 0 3.16 2.55 5.72 5.67 5.72 1.8 0 2.84-.77 3.93-1.8.84-.8 1.38-2.13 1.57-4.05h-5.5V5.8h9.05c.1.5.15.9.15 1.57 0 3.93-2.62 9.32-9.2 9.32-2.53 0-4.83-1-6.5-2.6C2 14.05 1 11.8 1 9.17z" fill="#4285F4"/>
-            <path d="M22.14 18.3c-3.36 0-6.06-2.53-6.06-5.9 0-3.38 2.7-5.9 6.06-5.9 3.35 0 6.05 2.52 6.05 5.9 0 3.37-2.7 5.9-6.05 5.9zm0-2.33c1.83 0 3.35-1.44 3.35-3.57s-1.52-3.57-3.35-3.57c-1.84 0-3.35 1.44-3.35 3.57s1.5 3.57 3.35 3.57z" fill="#EA4335"/>
-            <path d="M34.96 18.3c-3.36 0-6.06-2.53-6.06-5.9 0-3.38 2.7-5.9 6.06-5.9 3.35 0 6.05 2.52 6.05 5.9 0 3.37-2.7 5.9-6.05 5.9zm0-2.33c1.83 0 3.35-1.44 3.35-3.57s-1.52-3.57-3.35-3.57c-1.84 0-3.35 1.44-3.35 3.57s1.5 3.57 3.35 3.57z" fill="#FBBC05"/>
-            <path d="M55.4 20.44h-2.6v-17h2.6v17z" fill="#34A853"/>
-        </svg>
-        <span class="keyword-logo">The Keyword</span>
-        <nav>
-            <div class="nav-item">Latest stories</div>
-            <div class="nav-item active">Product news</div>
-            <div class="nav-item">Technologies</div>
-            <div class="nav-item">Inside Google</div>
-        </nav>
-    </div>
-    <div class="header-right">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#5f6368" style="cursor:pointer"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-        <button class="btn-subscribe">Subscribe</button>
-    </div>
-</header>
+  <script>
+    (function () {
+      // --- Configuration ---
+      const TILE_SIZE = 24;
+      const LEVEL_TEMPLATE = [
+        "###################",
+        "#........#........#",
+        "#.###.###.#.###.###",
+        "#o# #.#.....#.# #o#",
+        "#.###.#.###.#.###.#",
+        "#.....#...#.#.....#",
+        "#####.### # ###.###",
+        "    #.#  G G  #.#  ",
+        "#####.# ##=## #.###",
+        "#........P........#",
+        "###.###.###.###.###",
+        "#...#.......#.....#",
+        "#.#.#.#####.#.###.#",
+        "#o..#...#...#....o#",
+        "###.###.#.###.###.#",
+        "#........#........#",
+        "#.#######.#######.#",
+        "#.................#",
+        "#.###############.#",
+        "#........#........#",
+        "###################"
+      ];
 
-<div class="main-container">
-    
-    <!-- SECTION 1: HEADER & HERO -->
-    <div class="article-header">
-        <div class="breadcrumbs">
-            <svg viewBox="0 0 24 24" width="14" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span class="separator">/</span>
-            <span>Products</span>
-            <span class="separator">/</span>
-            <span>Gemini</span>
-        </div>
+      const MAP_ROWS = LEVEL_TEMPLATE.length;
+      const MAP_COLS = LEVEL_TEMPLATE[0].length;
 
-        <h1>Gemini 3.5: Fluid intelligence at the speed of thought</h1>
-        
-        <div class="meta-line">
-            <span class="meta-date">May 12, 2026</span>
-            <span>12 min read</span>
-        </div>
+      const PACMAN_SPEED = 90; // px/s
+      const GHOST_SPEED = 75;
+      const GHOST_FRIGHTENED_SPEED = 60;
+      const FRIGHTENED_DURATION = 8; // seconds
 
-        <div class="author-block">
-            <div class="author">
-                <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/sundar-208x208.width-400.format-webp.webp" alt="Sundar Pichai">
-                <div class="author-text">
-                    <span class="author-name">Sundar Pichai</span>
-                    <span class="author-title">CEO, Google and Alphabet</span>
-                </div>
-            </div>
-            <div class="author">
-                <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Demis_headshot.max-244x184.format-webp.webp" alt="Demis Hassabis">
-                <div class="author-text">
-                    <span class="author-name">Demis Hassabis</span>
-                    <span class="author-title">CEO, Google DeepMind</span>
-                </div>
-            </div>
-        </div>
+      // --- Canvas & UI refs ---
+      const canvas = document.getElementById("game");
+      const ctx = canvas.getContext("2d");
+      const scoreEl = document.getElementById("score");
+      const livesEl = document.getElementById("lives");
+      const levelEl = document.getElementById("level");
+      const messageEl = document.getElementById("message");
 
-        <div class="ai-summary">
-            <div class="ai-summary-header">
-                <div class="ai-label">
-                    <svg style="width:16px; height:16px; fill:#1a73e8; margin-right:8px;" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>
-                    Read AI-generated summary
-                </div>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#1a73e8"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-            </div>
-        </div>
+      canvas.width = MAP_COLS * TILE_SIZE;
+      canvas.height = MAP_ROWS * TILE_SIZE;
 
-        <!-- Hero Animation -->
-        <div class="hero-wrapper">
-            <div class="flow-bg"></div>
-            <div class="flow-orb"></div>
-            <div class="flow-orb orb-2"></div>
-            <div class="stream-container">
-                <div class="stream-line"></div>
-                <div class="stream-line"></div>
-                <div class="stream-line"></div>
-                <div class="stream-line"></div>
-            </div>
-            <div class="hero-caption">Visualization of parallelized thought streams in Gemini 3.5</div>
-        </div>
-    </div>
+      // --- Game state ---
+      let tiles = [];
+      let pelletsRemaining = 0;
+      let pacman = null;
+      let ghosts = [];
+      let ghostStartPositions = [];
+      let pacmanStart = null;
 
-    <!-- SECTION 2: CONTENT + SIDEBAR -->
-    <div class="content-grid">
-        
-        <!-- LEFT: ARTICLE TEXT -->
-        <div class="article-body">
-            
-            <!-- NESTED TOC (Visible on normal laptops/desktops) -->
-            <div class="inline-toc">
-                <div class="toc-title">On this page</div>
-                <a href="#benchmarks" class="toc-link">Benchmarks & Performance</a>
-                <a href="#native-actions" class="toc-link">Native Actions</a>
-                <a href="#availability" class="toc-link">Availability</a>
-            </div>
+      let score = 0;
+      let lives = 3;
+      let levelNumber = 1;
+      let frightenedTimer = 0;
+      let gameState = "playing"; // "playing" | "paused" | "gameover"
+      let lastTime = 0;
 
-            <p>Six months ago, with the release of <strong>Gemini 3.0</strong>, we introduced "Deep Think"—a capability allowing models to pause, verify hypotheses, and reason through problems before responding. It was a necessary step for solving the impossible, but it introduced a new friction: the wait.</p>
-            
-            <p>Today, we are collapsing the distinction between thinking and acting.</p>
+      const ghostColors = ["#ff0000", "#ffb8ff", "#00ffff", "#ffb852"];
 
-            <p>We are thrilled to introduce <strong>Gemini 3.5</strong>. By utilizing a novel architecture we call "Parallelized Latent Verification," Gemini 3.5 maintains the profound reasoning depth of the 3.0 series but operates at the speed of conversation. It achieves a "Flow State," where verification happens simultaneously with generation.</p>
+      // --- Helpers ---
+      function updateScoreUI() {
+        scoreEl.textContent = score.toString();
+      }
 
-            <h2 id="benchmarks">Setting a new standard for intelligence</h2>
-            <p>Gemini 3.5 is not just faster; it is smarter. We have seen the largest jump in "hard" benchmarks since the transition from Gemini 1.0 to 1.5.</p>
-            
-            <p>On <strong>Humanity’s Last Exam (HLE)</strong>, the benchmark designed to withstand AI capabilities until 2027, Gemini 3.5 has become the first model to cross the 65% threshold, solving graduate-level problems that require novel insight, not just retrieval.</p>
+      function updateLivesUI() {
+        livesEl.textContent = lives.toString();
+      }
 
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Benchmark</th>
-                            <th style="width:35%">Metric / Description</th>
-                            <th>Gemini 3.5 Pro</th>
-                            <th>Gemini 3.0 Pro</th>
-                            <th>Claude 5</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="td-benchmark">Humanity's Last Exam <span class="new-badge">NEW</span></td>
-                            <td>Abstract reasoning & novel insight</td>
-                            <td><span class="score-pill win-gemini">78.4%</span></td>
-                            <td style="color:#5f6368">37.5%</td>
-                            <td style="color:#5f6368">48.2%</td>
-                        </tr>
-                        <tr>
-                            <td class="td-benchmark">GPQA Diamond</td>
-                            <td>PhD-level scientific QA</td>
-                            <td><span class="score-pill win-gemini">99.9%</span></td>
-                            <td style="color:#5f6368">91.9%</td>
-                            <td style="color:#5f6368">94.1%</td>
-                        </tr>
-                        <tr>
-                            <td class="td-benchmark">SWE-bench Verified</td>
-                            <td>Autonomous Issue Resolution</td>
-                            <td><span class="score-pill win-gemini">96.2%</span></td>
-                            <td style="color:#5f6368">76.2%</td>
-                            <td style="color:#5f6368">84.0%</td>
-                        </tr>
-                        <tr>
-                            <td class="td-benchmark">Reasoning Latency</td>
-                            <td>Time-to-first-token (Deep Mode)</td>
-                            <td><span class="score-pill win-gemini">18ms</span></td>
-                            <td style="color:#5f6368">1,500ms</td>
-                            <td style="color:#5f6368">800ms</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      function updateLevelUI() {
+        levelEl.textContent = levelNumber.toString();
+      }
 
-            <h2 id="native-actions">Native Actions & Liquid Memory</h2>
-            <p>Intelligence is of limited use if it remains trapped in a chat box. Gemini 3.5 introduces <strong>Native Action</strong> capabilities. Instead of outputting code for a human to copy-paste, Gemini 3.5 can now directly interface with secure sandboxed environments to execute complex workflows—from editing video files to compiling apps—autonomously.</p>
+      function showMessage(text) {
+        messageEl.textContent = text || "";
+      }
 
-            <p>This is powered by <strong>Liquid Memory</strong>, a dynamic context caching system that allows the model to retain "working memory" of projects indefinitely, effectively removing the 10M token ceiling for active sessions.</p>
+      function clearMessage() {
+        messageEl.textContent = "";
+      }
 
-            <h2 id="availability">Availability</h2>
-            <p>Gemini 3.5 Pro is available starting today in <a href="#">Google AI Studio</a> and will roll out to Gemini Advanced subscribers over the next week. We can't wait to see what you build with it.</p>
-        </div>
+      function getGridPosition(x, y) {
+        return {
+          col: Math.floor(x / TILE_SIZE),
+          row: Math.floor(y / TILE_SIZE)
+        };
+      }
 
-        <!-- RIGHT: STICKY SIDEBAR (Only Visible on Wide Screens) -->
-        <aside class="sidebar-wrapper">
-            <nav class="sidebar-nav">
-                <div class="toc-title">On this page</div>
-                <a href="#benchmarks" class="toc-link active">Benchmarks & Performance</a>
-                <a href="#native-actions" class="toc-link">Native Actions</a>
-                <a href="#availability" class="toc-link">Availability</a>
-            </nav>
-        </aside>
-    </div>
+      function isBlocked(row, col, forGhost) {
+        if (row < 0 || row >= MAP_ROWS || col < 0 || col >= MAP_COLS) {
+          return true;
+        }
+        const tile = tiles[row][col];
+        if (!tile) return true;
+        if (tile.type === "wall") return true;
+        if (tile.type === "door" && !forGhost) return true;
+        return false;
+      }
 
-</div>
+      function isBlockedAtPosition(x, y, forGhost, radius) {
+        const left = x - radius;
+        const right = x + radius;
+        const top = y - radius;
+        const bottom = y + radius;
 
-<footer>
-    <svg style="width:80px; opacity:0.4; filter:grayscale(100%);" viewBox="0 0 74 24">
-        <path d="M9.24 18.3c-2.53 0-4.83-1-6.5-2.6C1 14.05 0 11.8 0 9.17 0 6.52 1 4.27 2.73 2.63 4.4 1 6.7.02 9.24.02c2.5 0 4.67.88 6.26 2.38l-2.45 2.45C12.3 4.1 11.1 3.46 9.25 3.46c-3.12 0-5.67 2.55-5.67 5.7 0 3.16 2.55 5.72 5.67 5.72 1.8 0 2.84-.77 3.93-1.8.84-.8 1.38-2.13 1.57-4.05H9.25V5.8h9.05c.1.5.15.9.15 1.57 0 3.93-2.62 9.32-9.2 9.32zm11.9 0c-3.36 0-6.06-2.53-6.06-5.9 0-3.38 2.7-5.9 6.06-5.9 3.35 0 6.05 2.52 6.05 5.9 0 3.37-2.7 5.9-6.05 5.9zm0-2.33c1.83 0 3.35-1.44 3.35-3.57s-1.52-3.57-3.35-3.57c-1.84 0-3.35 1.44-3.35 3.57s1.5 3.57 3.35 3.57zm12.82 2.33c-3.36 0-6.06-2.53-6.06-5.9 0-3.38 2.7-5.9 6.06-5.9 3.35 0 6.05 2.52 6.05 5.9 0 3.37-2.7 5.9-6.05 5.9zm0-2.33c1.83 0 3.35-1.44 3.35-3.57s-1.52-3.57-3.35-3.57c-1.84 0-3.35 1.44-3.35 3.57s1.5 3.57 3.35 3.57zm13.46 2.14h-2.6v-17h2.6v17zm6.6-9.97c-2.4 0-3.62 2.06-3.62 4.17 0 2.07 1.2 4.08 3.6 4.08 1.45 0 2.35-.72 2.7-1.54l2.3.97c-.78 1.56-2.65 2.9-5.04 2.9-3.3 0-5.97-2.57-5.97-5.9 0-3.5 2.65-5.9 5.97-5.9 2.96 0 5.16 2.06 5.73 5.08l.16.84-8.22 3.4c.63 1.24 1.48 1.7 2.8 1.7 1.3 0 2.14-.64 2.66-1.4l-3.13-8.3z" fill="#000"/>
-    </svg>
-    <div class="footer-links">
-        <span>Help</span>
-        <span>Privacy</span>
-        <span>Terms</span>
-        <span>About Google</span>
-        <span>Google AI Products</span>
-    </div>
-</footer>
+        const points = [
+          { x: left, y: top },
+          { x: right, y: top },
+          { x: left, y: bottom },
+          { x: right, y: bottom }
+        ];
 
+        for (let i = 0; i < points.length; i++) {
+          const p = points[i];
+          const col = Math.floor(p.x / TILE_SIZE);
+          const row = Math.floor(p.y / TILE_SIZE);
+          if (isBlocked(row, col, forGhost)) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function canMove(entity, dx, dy, forGhost, step) {
+        if (dx === 0 && dy === 0) return false;
+        const nextX = entity.x + dx * step;
+        const nextY = entity.y + dy * step;
+        return !isBlockedAtPosition(nextX, nextY, forGhost, entity.radius);
+      }
+
+      function distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      // --- Level setup ---
+      function setupLevel() {
+        tiles = [];
+        pelletsRemaining = 0;
+        pacmanStart = null;
+        ghostStartPositions = [];
+        ghosts = [];
+
+        for (let row = 0; row < MAP_ROWS; row++) {
+          tiles[row] = [];
+          const line = LEVEL_TEMPLATE[row];
+          for (let col = 0; col < MAP_COLS; col++) {
+            const ch = line[col];
+            let type = "empty";
+            let pellet = false;
+            let powerPellet = false;
+
+            if (ch === "#") {
+              type = "wall";
+            } else if (ch === ".") {
+              type = "empty";
+              pellet = true;
+              pelletsRemaining++;
+            } else if (ch === "o") {
+              type = "empty";
+              powerPellet = true;
+              pelletsRemaining++;
+            } else if (ch === "=") {
+              type = "door";
+            } else if (ch === "P") {
+              type = "empty";
+              pacmanStart = { row, col };
+            } else if (ch === "G") {
+              type = "empty";
+              ghostStartPositions.push({ row, col });
+            } else {
+              type = "empty";
+            }
+
+            tiles[row][col] = {
+              type: type,
+              pellet: pellet,
+              powerPellet: powerPellet
+            };
+          }
+        }
+
+        if (!pacmanStart) {
+          // Fallback to center if template is missing P
+          pacmanStart = { row: Math.floor(MAP_ROWS / 2), col: Math.floor(MAP_COLS / 2) };
+        }
+
+        const startX = (pacmanStart.col + 0.5) * TILE_SIZE;
+        const startY = (pacmanStart.row + 0.5) * TILE_SIZE;
+
+        pacman = {
+          x: startX,
+          y: startY,
+          radius: TILE_SIZE * 0.45,
+          speed: PACMAN_SPEED,
+          dx: 0,
+          dy: 0,
+          nextDx: 0,
+          nextDy: 0
+        };
+
+        // Ensure at least 4 starting positions for ghosts
+        if (ghostStartPositions.length === 0) {
+          ghostStartPositions.push({ row: pacmanStart.row, col: pacmanStart.col });
+        }
+        while (ghostStartPositions.length < 4) {
+          ghostStartPositions.push(ghostStartPositions[0]);
+        }
+
+        for (let i = 0; i < 4; i++) {
+          const pos = ghostStartPositions[i];
+          const gx = (pos.col + 0.5) * TILE_SIZE;
+          const gy = (pos.row + 0.5) * TILE_SIZE;
+          ghosts.push({
+            x: gx,
+            y: gy,
+            radius: TILE_SIZE * 0.45,
+            dx: 0,
+            dy: 0,
+            color: ghostColors[i % ghostColors.length],
+            mode: "chase",
+            startX: gx,
+            startY: gy
+          });
+        }
+
+        frightenedTimer = 0;
+        clearMessage();
+      }
+
+      function resetPositions() {
+        const startX = (pacmanStart.col + 0.5) * TILE_SIZE;
+        const startY = (pacmanStart.row + 0.5) * TILE_SIZE;
+
+        pacman.x = startX;
+        pacman.y = startY;
+        pacman.dx = 0;
+        pacman.dy = 0;
+        pacman.nextDx = 0;
+        pacman.nextDy = 0;
+
+        for (let i = 0; i < ghosts.length; i++) {
+          const pos = ghostStartPositions[i % ghostStartPositions.length];
+          const gx = (pos.col + 0.5) * TILE_SIZE;
+          const gy = (pos.row + 0.5) * TILE_SIZE;
+          const g = ghosts[i];
+          g.x = gx;
+          g.y = gy;
+          g.dx = 0;
+          g.dy = 0;
+          g.mode = "chase";
+        }
+
+        frightenedTimer = 0;
+      }
+
+      function startNewGame() {
+        score = 0;
+        lives = 3;
+        levelNumber = 1;
+        updateScoreUI();
+        updateLivesUI();
+        updateLevelUI();
+        setupLevel();
+        gameState = "playing";
+        clearMessage();
+      }
+
+      function levelComplete() {
+        levelNumber += 1;
+        updateLevelUI();
+        showMessage("Level " + levelNumber);
+        setupLevel();
+      }
+
+      // --- Pellet eating ---
+      function eatPelletAtPosition(x, y) {
+        const cell = getGridPosition(x, y);
+        const row = cell.row;
+        const col = cell.col;
+        if (row < 0 || row >= MAP_ROWS || col < 0 || col >= MAP_COLS) {
+          return;
+        }
+        const tile = tiles[row][col];
+        if (!tile) return;
+
+        if (tile.pellet) {
+          tile.pellet = false;
+          pelletsRemaining--;
+          score += 10;
+          updateScoreUI();
+        } else if (tile.powerPellet) {
+          tile.powerPellet = false;
+          pelletsRemaining--;
+          score += 50;
+          updateScoreUI();
+          frightenedTimer = FRIGHTENED_DURATION;
+          for (let i = 0; i < ghosts.length; i++) {
+            ghosts[i].mode = "frightened";
+          }
+        }
+
+        if (pelletsRemaining === 0) {
+          levelComplete();
+        }
+      }
+
+      // --- Ghost AI ---
+      function chooseGhostDirection(ghost, cell) {
+        const directions = [
+          { dx: 1, dy: 0 },
+          { dx: -1, dy: 0 },
+          { dx: 0, dy: 1 },
+          { dx: 0, dy: -1 }
+        ];
+
+        const possible = [];
+        for (let i = 0; i < directions.length; i++) {
+          const d = directions[i];
+          const nr = cell.row + d.dy;
+          const nc = cell.col + d.dx;
+          if (!isBlocked(nr, nc, true)) {
+            possible.push(d);
+          }
+        }
+
+        if (possible.length === 0) {
+          // Nowhere to go; stop
+          ghost.dx = 0;
+          ghost.dy = 0;
+          return;
+        }
+
+        // Avoid reversing direction when possible
+        const reverseDx = -ghost.dx;
+        const reverseDy = -ghost.dy;
+        let filtered = possible.filter(function (d) {
+          return !(d.dx === reverseDx && d.dy === reverseDy);
+        });
+        if (filtered.length === 0) {
+          filtered = possible;
+        }
+
+        let chosen;
+        if (ghost.mode === "frightened") {
+          chosen = filtered[Math.floor(Math.random() * filtered.length)];
+        } else {
+          const pacCell = getGridPosition(pacman.x, pacman.y);
+          let bestDist = Infinity;
+          for (let i = 0; i < filtered.length; i++) {
+            const d = filtered[i];
+            const nr = cell.row + d.dy;
+            const nc = cell.col + d.dx;
+            const dx = pacCell.col - nc;
+            const dy = pacCell.row - nr;
+            const dist = dx * dx + dy * dy;
+            if (dist < bestDist) {
+              bestDist = dist;
+              chosen = d;
+            }
+          }
+        }
+
+        ghost.dx = chosen.dx;
+        ghost.dy = chosen.dy;
+      }
+
+      // --- Update functions ---
+      function updatePacman(dt) {
+        const step = pacman.speed * dt;
+        if (step <= 0) return;
+
+        const cell = getGridPosition(pacman.x, pacman.y);
+        const centerX = (cell.col + 0.5) * TILE_SIZE;
+        const centerY = (cell.row + 0.5) * TILE_SIZE;
+        const distanceToCenter = Math.hypot(pacman.x - centerX, pacman.y - centerY);
+
+        // Turn if there's a requested direction and we're near the center
+        if ((pacman.nextDx !== 0 || pacman.nextDy !== 0) &&
+          distanceToCenter < step * 1.1 &&
+          !isBlocked(cell.row + pacman.nextDy, cell.col + pacman.nextDx, false)) {
+          pacman.x = centerX;
+          pacman.y = centerY;
+          pacman.dx = pacman.nextDx;
+          pacman.dy = pacman.nextDy;
+          pacman.nextDx = 0;
+          pacman.nextDy = 0;
+        }
+
+        if (pacman.dx !== 0 || pacman.dy !== 0) {
+          if (canMove(pacman, pacman.dx, pacman.dy, false, step)) {
+            pacman.x += pacman.dx * step;
+            pacman.y += pacman.dy * step;
+          } else if (distanceToCenter < step) {
+            // Snap to center when hitting a wall
+            pacman.x = centerX;
+            pacman.y = centerY;
+          }
+        }
+
+        eatPelletAtPosition(pacman.x, pacman.y);
+      }
+
+      function updateGhost(ghost, dt) {
+        const speed = ghost.mode === "frightened" ? GHOST_FRIGHTENED_SPEED : GHOST_SPEED;
+        const step = speed * dt;
+        if (step <= 0) return;
+
+        const cell = getGridPosition(ghost.x, ghost.y);
+        const centerX = (cell.col + 0.5) * TILE_SIZE;
+        const centerY = (cell.row + 0.5) * TILE_SIZE;
+        const distanceToCenter = Math.hypot(ghost.x - centerX, ghost.y - centerY);
+
+        if (distanceToCenter < step) {
+          ghost.x = centerX;
+          ghost.y = centerY;
+          chooseGhostDirection(ghost, cell);
+        }
+
+        if (ghost.dx !== 0 || ghost.dy !== 0) {
+          if (canMove(ghost, ghost.dx, ghost.dy, true, step)) {
+            ghost.x += ghost.dx * step;
+            ghost.y += ghost.dy * step;
+          }
+        }
+      }
+
+      function handlePacmanHit() {
+        if (gameState !== "playing") return;
+        lives -= 1;
+        updateLivesUI();
+
+        if (lives <= 0) {
+          gameState = "gameover";
+          showMessage("Game over – press Space to restart");
+        } else {
+          resetPositions();
+        }
+      }
+
+      function update(dt) {
+        if (gameState !== "playing") return;
+
+        if (frightenedTimer > 0) {
+          frightenedTimer -= dt;
+          if (frightenedTimer <= 0) {
+            frightenedTimer = 0;
+            for (let i = 0; i < ghosts.length; i++) {
+              if (ghosts[i].mode === "frightened") {
+                ghosts[i].mode = "chase";
+              }
+            }
+          }
+        }
+
+        updatePacman(dt);
+
+        for (let i = 0; i < ghosts.length; i++) {
+          updateGhost(ghosts[i], dt);
+        }
+
+        // Check collisions with ghosts
+        for (let i = 0; i < ghosts.length; i++) {
+          const g = ghosts[i];
+          const distPG = distance(pacman, g);
+          if (distPG < pacman.radius + g.radius - 2) {
+            if (g.mode === "frightened") {
+              // Eat ghost
+              score += 200;
+              updateScoreUI();
+              g.x = g.startX;
+              g.y = g.startY;
+              g.dx = 0;
+              g.dy = 0;
+              g.mode = "chase";
+            } else {
+              handlePacmanHit();
+              break;
+            }
+          }
+        }
+      }
+
+      // --- Drawing functions ---
+      function drawMap(timestamp) {
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        for (let row = 0; row < MAP_ROWS; row++) {
+          for (let col = 0; col < MAP_COLS; col++) {
+            const tile = tiles[row][col];
+            const x = col * TILE_SIZE;
+            const y = row * TILE_SIZE;
+            const centerX = x + TILE_SIZE / 2;
+            const centerY = y + TILE_SIZE / 2;
+
+            if (tile.type === "wall") {
+              ctx.fillStyle = "#1919a6";
+              ctx.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+              ctx.strokeStyle = "#5b5bff";
+              ctx.lineWidth = 2;
+              ctx.strokeRect(x + 1, y + 1, TILE_SIZE - 2, TILE_SIZE - 2);
+            } else if (tile.type === "door") {
+              ctx.strokeStyle = "#ffffff";
+              ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.moveTo(x, y + TILE_SIZE / 2);
+              ctx.lineTo(x + TILE_SIZE, y + TILE_SIZE / 2);
+              ctx.stroke();
+            }
+
+            if (tile.pellet) {
+              ctx.fillStyle = "#ffb8ae";
+              ctx.beginPath();
+              ctx.arc(centerX, centerY, TILE_SIZE * 0.09, 0, Math.PI * 2);
+              ctx.fill();
+            } else if (tile.powerPellet) {
+              const t = timestamp || performance.now();
+              const pulse = 0.7 + 0.3 * Math.sin(t / 120);
+              const radius = TILE_SIZE * 0.16 * pulse;
+              ctx.fillStyle = "#ffffff";
+              ctx.beginPath();
+              ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+      }
+
+      function drawPacman(timestamp) {
+        const t = timestamp || performance.now();
+        const x = pacman.x;
+        const y = pacman.y;
+        const r = pacman.radius;
+        const oscillation = 0.25 + 0.10 * Math.sin(t / 80);
+        let startAngle, endAngle;
+
+        if (pacman.dx === 1) { // right
+          startAngle = oscillation;
+          endAngle = -oscillation;
+        } else if (pacman.dx === -1) { // left
+          startAngle = Math.PI - oscillation;
+          endAngle = Math.PI + oscillation;
+        } else if (pacman.dy === -1) { // up
+          startAngle = -Math.PI / 2 + oscillation;
+          endAngle = -Math.PI / 2 - oscillation;
+        } else if (pacman.dy === 1) { // down
+          startAngle = Math.PI / 2 + oscillation;
+          endAngle = Math.PI / 2 - oscillation;
+        } else {
+          startAngle = oscillation;
+          endAngle = -oscillation;
+        }
+
+        ctx.fillStyle = "#ffed00";
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.arc(x, y, r, startAngle, endAngle, false);
+        ctx.closePath();
+        ctx.fill();
+
+        // Eye
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.arc(x, y - r * 0.4, r * 0.12, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function drawGhost(ghost) {
+        const x = ghost.x;
+        const y = ghost.y;
+        const r = ghost.radius;
+
+        const bodyColor = ghost.mode === "frightened" ? "#2b9fff" : ghost.color;
+        ctx.fillStyle = bodyColor;
+
+        // Body
+        ctx.beginPath();
+        ctx.arc(x, y - r * 0.3, r, Math.PI, 0, false); // head
+        ctx.lineTo(x + r, y + r);
+        ctx.lineTo(x - r, y + r);
+        ctx.closePath();
+        ctx.fill();
+
+        // Eyes
+        ctx.fillStyle = "#ffffff";
+        const eyeOffsetX = ghost.mode === "frightened" ? 0 : ghost.dx * r * 0.2;
+        const eyeOffsetY = ghost.mode === "frightened" ? 0 : ghost.dy * r * 0.2;
+
+        ctx.beginPath();
+        ctx.arc(x - r * 0.4, y - r * 0.3, r * 0.3, 0, Math.PI * 2);
+        ctx.arc(x + r * 0.4, y - r * 0.3, r * 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pupils
+        ctx.fillStyle = "#000000";
+        ctx.beginPath();
+        ctx.arc(x - r * 0.4 + eyeOffsetX, y - r * 0.3 + eyeOffsetY, r * 0.12, 0, Math.PI * 2);
+        ctx.arc(x + r * 0.4 + eyeOffsetX, y - r * 0.3 + eyeOffsetY, r * 0.12, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function draw(timestamp) {
+        drawMap(timestamp);
+
+        // Draw ghosts first so Pac-Man is "on top"
+        for (let i = 0; i < ghosts.length; i++) {
+          drawGhost(ghosts[i]);
+        }
+
+        drawPacman(timestamp);
+
+        if (gameState === "paused") {
+          ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#ffd54a";
+          ctx.font = "20px system-ui, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("Paused", canvas.width / 2, canvas.height / 2);
+        } else if (gameState === "gameover") {
+          ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#ff5252";
+          ctx.font = "20px system-ui, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("Game Over", canvas.width / 2, canvas.height / 2);
+        }
+      }
+
+      // --- Input ---
+      window.addEventListener("keydown", function (e) {
+        const key = e.key;
+
+        if (key === "ArrowLeft" || key === "Left") {
+          if (!pacman) return;
+          pacman.nextDx = -1;
+          pacman.nextDy = 0;
+          e.preventDefault();
+        } else if (key === "ArrowRight" || key === "Right") {
+          if (!pacman) return;
+          pacman.nextDx = 1;
+          pacman.nextDy = 0;
+          e.preventDefault();
+        } else if (key === "ArrowUp" || key === "Up") {
+          if (!pacman) return;
+          pacman.nextDx = 0;
+          pacman.nextDy = -1;
+          e.preventDefault();
+        } else if (key === "ArrowDown" || key === "Down") {
+          if (!pacman) return;
+          pacman.nextDx = 0;
+          pacman.nextDy = 1;
+          e.preventDefault();
+        } else if (key === " " || key === "Spacebar") {
+          e.preventDefault();
+          if (gameState === "gameover") {
+            startNewGame();
+          } else if (gameState === "playing") {
+            gameState = "paused";
+            showMessage("Paused – press Space to resume");
+          } else if (gameState === "paused") {
+            gameState = "playing";
+            clearMessage();
+          }
+        }
+      });
+
+      // --- Main loop ---
+      function loop(timestamp) {
+        if (!lastTime) lastTime = timestamp;
+        const dt = (timestamp - lastTime) / 1000;
+        lastTime = timestamp;
+
+        update(dt);
+        draw(timestamp);
+        requestAnimationFrame(loop);
+      }
+
+      // Initialize
+      setupLevel();
+      updateScoreUI();
+      updateLivesUI();
+      updateLevelUI();
+      showMessage("Ready! Use arrow keys. Space pauses.");
+
+      requestAnimationFrame(loop);
+    })();
+  </script>
 </body>
 </html>
