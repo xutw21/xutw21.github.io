@@ -29,7 +29,7 @@
             background-color: #fff;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden; /* Prevent accidental scroll */
+            overflow-x: hidden; /* Critical fix for horizontal scroll */
         }
 
         /* --- Typography --- */
@@ -96,7 +96,7 @@
 
         .author-block { display: flex; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
         .author { display: flex; align-items: center; gap: 12px; }
-        .author img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #eee; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .author img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .author-text { display: flex; flex-direction: column; }
         .author-name { font-family: 'Google Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--gm-blue); }
         .author-title { font-size: 12px; color: var(--gm-grey-700); }
@@ -132,61 +132,62 @@
         
         .hero-caption { position: absolute; bottom: 20px; left: 24px; color: rgba(255,255,255,0.7); font-size: 12px; font-family: 'Roboto Mono', monospace; }
 
-        /* --- Section 2: Content Grid with Sidebar --- */
+        /* --- Content Layout --- */
+        /* Fix: Using standard block layout for mobile/tablet to prevent overflow */
         .content-grid {
+            display: block;
             width: 100%;
-            display: grid;
-            grid-template-columns: 1fr; /* Default Mobile */
-            gap: 40px;
-            position: relative;
+            max-width: 840px; /* Default reading width */
+            margin: 0 auto;
         }
 
-        /* 
-           Fixed the layout bug here:
-           1. Trigger breakpoint slightly earlier (1000px).
-           2. Use minmax(0, 1fr) for the text column. This prevents the column from 
-              blowing out the grid if a child element (like the table) wants to be wide.
-        */
-        @media(min-width: 1000px) {
+        /* Fix: Only activate grid on very large screens (1200px+) */
+        @media(min-width: 1200px) {
             .content-grid {
-                /* Text Column | Sidebar Column */
-                grid-template-columns: minmax(0, 1fr) 240px; 
-                gap: 48px;
-                max-width: 1140px;
-                margin: 0 auto;
+                display: grid;
+                grid-template-columns: 1fr 240px; /* Content | Sidebar */
+                gap: 64px;
+                max-width: 1180px;
             }
         }
 
-        .article-body {
-            max-width: 840px; 
-            margin: 0 auto; 
-            width: 100%;
+        .article-body { width: 100%; }
+
+        /* --- Sidebar / TOC --- */
+        
+        /* 1. Nested TOC (Mobile/Tablet/Small Laptop) */
+        .inline-toc {
+            display: block;
+            background: #f8f9fa;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            border: 1px solid #eee;
         }
         
-        @media(min-width: 1000px) {
-            .article-body { margin: 0; }
-        }
-
-        /* --- Sidebar --- */
+        /* 2. Sticky Sidebar (Only Large Desktop) */
         .sidebar-wrapper {
-            display: none; 
+            display: none; /* Hidden by default */
             height: 100%;
         }
-        @media(min-width: 1000px) {
+        
+        /* Swap logic: Show sidebar on large screens, Hide inline TOC */
+        @media(min-width: 1200px) {
+            .inline-toc { display: none; }
             .sidebar-wrapper { display: block; }
         }
 
         .sidebar-nav {
             position: sticky;
-            top: 100px; /* Space from header */
+            top: 100px; 
             border-left: 1px solid var(--gm-grey-300);
             padding-left: 24px;
         }
 
-        .sidebar-title { font-size: 11px; font-weight: 700; color: #5f6368; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
-        .sidebar-link { display: block; color: #5f6368; font-size: 14px; padding: 6px 0; margin-bottom: 4px; position: relative; transition: color 0.2s; }
-        .sidebar-link:hover { color: var(--gm-blue); }
-        .sidebar-link.active { color: var(--gm-blue); font-weight: 500; }
+        .toc-title { font-size: 11px; font-weight: 700; color: #5f6368; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+        .toc-link { display: block; color: #5f6368; font-size: 14px; padding: 6px 0; margin-bottom: 4px; position: relative; transition: color 0.2s; }
+        .toc-link:hover { color: var(--gm-blue); }
+        .toc-link.active { color: var(--gm-blue); font-weight: 500; }
 
         /* --- Table --- */
         .table-wrapper { margin: 48px 0; border-radius: 12px; border: 1px solid #e0e0e0; overflow-x: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
@@ -233,7 +234,7 @@
 
 <div class="main-container">
     
-    <!-- SECTION 1: HEADER & HERO (Full Width centered) -->
+    <!-- SECTION 1: HEADER & HERO -->
     <div class="article-header">
         <div class="breadcrumbs">
             <svg viewBox="0 0 24 24" width="14" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -252,7 +253,7 @@
 
         <div class="author-block">
             <div class="author">
-                <!-- UPDATED IMAGE: SUNDAR -->
+                <!-- SUNDAR PICHAI -->
                 <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/sundar-208x208.width-400.format-webp.webp" alt="Sundar Pichai">
                 <div class="author-text">
                     <span class="author-name">Sundar Pichai</span>
@@ -260,7 +261,7 @@
                 </div>
             </div>
             <div class="author">
-                <!-- UPDATED IMAGE: DEMIS -->
+                <!-- DEMIS HASSABIS -->
                 <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Demis_headshot.max-244x184.format-webp.webp" alt="Demis Hassabis">
                 <div class="author-text">
                     <span class="author-name">Demis Hassabis</span>
@@ -294,11 +295,20 @@
         </div>
     </div>
 
-    <!-- SECTION 2: GRID (TEXT + SIDEBAR) -->
+    <!-- SECTION 2: CONTENT + SIDEBAR -->
     <div class="content-grid">
         
         <!-- LEFT: ARTICLE TEXT -->
         <div class="article-body">
+            
+            <!-- NESTED TOC (Visible only on small/medium screens) -->
+            <div class="inline-toc">
+                <div class="toc-title">On this page</div>
+                <a href="#benchmarks" class="toc-link">Benchmarks & Performance</a>
+                <a href="#native-actions" class="toc-link">Native Actions</a>
+                <a href="#availability" class="toc-link">Availability</a>
+            </div>
+
             <p>Six months ago, with the release of <strong>Gemini 3.0</strong>, we introduced "Deep Think"—a capability allowing models to pause, verify hypotheses, and reason through problems before responding. It was a necessary step for solving the impossible, but it introduced a new friction: the wait.</p>
             
             <p>Today, we are collapsing the distinction between thinking and acting.</p>
@@ -308,7 +318,7 @@
             <h2 id="benchmarks">Setting a new standard for intelligence</h2>
             <p>Gemini 3.5 is not just faster; it is smarter. We have seen the largest jump in "hard" benchmarks since the transition from Gemini 1.0 to 1.5.</p>
             
-            <p>On <strong>Humanity’s Last Exam (HLE)</strong>, the benchmark designed to withstand AI capabilities until 2027, Gemini 3.5 has become the first model to cross the 60% threshold, solving graduate-level problems that require novel insight, not just retrieval.</p>
+            <p>On <strong>Humanity’s Last Exam (HLE)</strong>, the benchmark designed to withstand AI capabilities until 2027, Gemini 3.5 has become the first model to cross the 65% threshold, solving graduate-level problems that require novel insight, not just retrieval.</p>
 
             <div class="table-wrapper">
                 <table>
@@ -325,32 +335,32 @@
                         <tr>
                             <td class="td-benchmark">Humanity's Last Exam <span class="new-badge">NEW</span></td>
                             <td>Abstract reasoning & novel insight</td>
-                            <!-- BOOSTED SCORE -->
-                            <td><span class="score-pill win-gemini">64.8%</span></td>
+                            <!-- SUPER SCORE -->
+                            <td><span class="score-pill win-gemini">78.4%</span></td>
                             <td style="color:#5f6368">37.5%</td>
                             <td style="color:#5f6368">48.2%</td>
                         </tr>
                         <tr>
                             <td class="td-benchmark">GPQA Diamond</td>
                             <td>PhD-level scientific QA</td>
-                            <!-- BOOSTED SCORE -->
-                            <td><span class="score-pill win-gemini">99.2%</span></td>
+                            <!-- SUPER SCORE -->
+                            <td><span class="score-pill win-gemini">99.9%</span></td>
                             <td style="color:#5f6368">91.9%</td>
                             <td style="color:#5f6368">94.1%</td>
                         </tr>
                         <tr>
                             <td class="td-benchmark">SWE-bench Verified</td>
                             <td>Autonomous Issue Resolution</td>
-                            <!-- BOOSTED SCORE -->
-                            <td><span class="score-pill win-gemini">95.1%</span></td>
+                            <!-- SUPER SCORE -->
+                            <td><span class="score-pill win-gemini">96.2%</span></td>
                             <td style="color:#5f6368">76.2%</td>
                             <td style="color:#5f6368">84.0%</td>
                         </tr>
                         <tr>
                             <td class="td-benchmark">Reasoning Latency</td>
                             <td>Time-to-first-token (Deep Mode)</td>
-                            <!-- BOOSTED SCORE -->
-                            <td><span class="score-pill win-gemini">45ms</span></td>
+                            <!-- ULTRA FAST -->
+                            <td><span class="score-pill win-gemini">18ms</span></td>
                             <td style="color:#5f6368">1,500ms</td>
                             <td style="color:#5f6368">800ms</td>
                         </tr>
@@ -367,13 +377,13 @@
             <p>Gemini 3.5 Pro is available starting today in <a href="#">Google AI Studio</a> and will roll out to Gemini Advanced subscribers over the next week. We can't wait to see what you build with it.</p>
         </div>
 
-        <!-- RIGHT: STICKY SIDEBAR -->
+        <!-- RIGHT: STICKY SIDEBAR (Only Visible on Large Screens) -->
         <aside class="sidebar-wrapper">
             <nav class="sidebar-nav">
-                <div class="sidebar-title">On this page</div>
-                <a href="#benchmarks" class="sidebar-link active">Benchmarks & Performance</a>
-                <a href="#native-actions" class="sidebar-link">Native Actions</a>
-                <a href="#availability" class="sidebar-link">Availability</a>
+                <div class="toc-title">On this page</div>
+                <a href="#benchmarks" class="toc-link active">Benchmarks & Performance</a>
+                <a href="#native-actions" class="toc-link">Native Actions</a>
+                <a href="#availability" class="toc-link">Availability</a>
             </nav>
         </aside>
     </div>
